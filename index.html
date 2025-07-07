@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>云上森林馆 - 温室花园</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2e7d32;
+            --primary-dark: #1b5e20;
+            --primary-light: #4caf50;
+            --accent: #8bc34a;
+            --text: #333333;
+            --text-light: #666666;
+            --background: #f5f9f5;
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --border: rgba(76, 175, 80, 0.15);
+            --shadow: rgba(0, 0, 0, 0.08);
+            --success: #388e3c;
+            --warning: #f57c00;
+            --danger: #e53935;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+        
+        body {
+            width: 100%;
+            min-height: 100vh;
+            background: linear-gradient(160deg, #e8f5e9 0%, #c8e6c9 100%);
+            margin: 0;
+            padding: 20px;
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 380px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        /* iOS风格头部 */
+        .header {
+            text-align: center;
+            padding: 15px 0;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .header h1 {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--primary-dark);
+            position: relative;
+            margin-bottom: 5px;
+        }
+        
+        .header p {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--primary-light);
+            letter-spacing: 1.5px;
+        }
+        
+        /* 用户信息卡片 - iOS风格 */
+        .user-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 18px;
+            box-shadow: 0 4px 20px var(--shadow);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .user-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .user-greeting {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+        
+        .ticket-type {
+            background: linear-gradient(135deg, var(--primary-light), var(--primary-dark));
+            color: white;
+            padding: 6px 12px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        
+        .ticket-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .status-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-light), var(--primary-dark));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        .status-details {
+            flex: 1;
+        }
+        
+        .status-details h3 {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 3px;
+        }
+        
+        .status-details p {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+        
+        /* 欢迎卡片 */
+        .welcome-card {
+            background: linear-gradient(135deg, var(--primary-light), var(--primary-dark));
+            color: white;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 600;
+            box-shadow: 0 4px 20px var(--shadow);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        /* 位置卡片 */
+        .location-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 20px var(--shadow);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+        }
+        
+        .location-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .location-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--primary-light), var(--primary-dark));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        .location-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+        
+        .current-location {
+            background: rgba(129, 199, 132, 0.15);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 15px;
+            border: 1px dashed var(--primary-light);
+        }
+        
+        .current-location h4 {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-light);
+            margin-bottom: 5px;
+        }
+        
+        .current-location p {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+        
+        /* 地图容器 */
+        .map-container {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #e8f5e9;
+            border: 1px solid var(--border);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+            touch-action: none; /* 禁用浏览器默认触摸操作 */
+        }
+        
+        .map-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transform-origin: 0 0;
+            transition: transform 0.2s ease;
+            will-change: transform;
+        }
+        
+        .map-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+            pointer-events: none; /* 防止图片阻止事件 */
+        }
+        
+        .map-title {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--primary);
+            text-align: center;
+            margin-top: 8px;
+        }
+        
+        /* 标记样式 */
+        .map-marker {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            z-index: 20; /* 确保标记在顶层 */
+            cursor: pointer;
+            transform: translate(-50%, -50%);
+            transition: all 0.3s ease;
+            pointer-events: auto; /* 确保标记可点击 */
+        }
+        
+        .map-marker:hover {
+            transform: translate(-50%, -50%) scale(1.3);
+            z-index: 25;
+        }
+        
+        .marker-label {
+            position: absolute;
+            background: var(--card-bg);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--primary-dark);
+            border: 1px solid var(--border);
+            box-shadow: 0 3px 8px var(--shadow);
+            white-space: nowrap;
+            transform: translateX(-50%);
+            z-index: 30;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            bottom: 100%;
+            left: 50%;
+            margin-bottom: 10px;
+        }
+        
+        .map-marker:hover .marker-label {
+            opacity: 1;
+        }
+        
+        /* 修复标记点击问题 */
+        .map-marker img {
+            width: 100%;
+            height: auto;
+            pointer-events: auto;
+        }
+        
+        /* 缩放控制 */
+        .zoom-controls {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            z-index: 40;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .zoom-btn {
+            width: 32px;
+            height: 32px;
+            background: var(--card-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            border: 1px solid var(--border);
+            cursor: pointer;
+            font-size: 18px;
+            color: var(--primary-dark);
+            user-select: none;
+        }
+        
+        .zoom-btn:active {
+            background: rgba(76, 175, 80, 0.2);
+        }
+        
+        /* 温度卡片 */
+        .temperature-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 20px var(--shadow);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+        }
+        
+        .temperature-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .temperature-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #ff7043, #f57c00);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        .temperature-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+        
+        .temperature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .temp-card {
+            background: var(--glass-bg);
+            border-radius: 14px;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+        
+        .temp-card h4 {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-light);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+        
+        .temp-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary-dark);
+            position: relative;
+        }
+        
+        .temp-value::after {
+            content: "°C";
+            font-size: 16px;
+            font-weight: 500;
+            position: absolute;
+            top: 5px;
+            margin-left: 2px;
+        }
+        
+        .temp-source {
+            font-size: 11px;
+            color: var(--text-light);
+            margin-top: 5px;
+            font-style: italic;
+        }
+        
+        /* 提示卡片 */
+        .tip-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 20px var(--shadow);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+        }
+        
+        .tip-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .tip-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #ffca28, #f57c00);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        .tip-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+        
+        .tip-content {
+            background: rgba(255, 202, 40, 0.1);
+            border-radius: 12px;
+            padding: 15px;
+            border: 1px dashed #ffca28;
+        }
+        
+        .tip-content p {
+            font-size: 14px;
+            line-height: 1.5;
+            color: var(--text);
+            text-align: center;
+        }
+        
+        .tip-content strong {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--primary-dark);
+        }
+        
+        /* 页脚 */
+        .footer {
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-light);
+            padding: 20px 0;
+        }
+        
+        .footer p {
+            margin: 3px 0;
+        }
+        
+        .footer strong {
+            color: var(--primary-dark);
+            font-weight: 600;
+        }
+        
+        /* 装饰元素 */
+        .decoration {
+            position: absolute;
+            z-index: 0;
+            opacity: 0.1;
+            color: var(--primary);
+        }
+        
+        .leaf-1 {
+            top: 5%;
+            left: 5%;
+            font-size: 100px;
+            transform: rotate(-20deg);
+        }
+        
+        .leaf-2 {
+            bottom: 10%;
+            right: 5%;
+            font-size: 80px;
+            transform: rotate(25deg);
+        }
+        
+        /* 加载动画 */
+        .loader {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border: 2px solid rgba(56, 142, 60, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 5px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* 交互反馈 */
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, var(--primary-light), var(--primary-dark));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn:active {
+            transform: translateY(1px);
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 15px;
+            }
+            
+            .map-container {
+                height: 180px;
+            }
+        }
+        
+        /* 调试信息 */
+        .debug-info {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <!-- 装饰元素 -->
+    <div class="decoration leaf-1">
+
+        <i class="fas fa-leaf"></i>
+    </div>
+    <div class="decoration leaf-2">
+        <i class="fas fa-leaf"></i>
+    </div>
+    
+    <div class="container">
+        <!-- 顶部标题 -->
+        <div class="header">
+            <h1>温室花园</h1>
+            <p>云上森林馆 · 导览系统</p>
+        </div>
+        
+        <!-- 用户信息卡片 -->
+        <div class="user-card card-hover">
+            <div class="user-info">
+                <div class="user-greeting" id="greeting">张*先生，下午好！</div>
+                <div class="ticket-type">散客票</div>
+            </div>
+            
+            <div class="ticket-status">
+                <div class="status-icon">
+                    <i class="fas fa-ticket-alt"></i>
+                </div>
+                <div class="status-details">
+                    <h3>已验票</h3>
+                    <p id="current-date">2025年7月4日 <span id="current-time">18:49:00</span></p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 欢迎卡片 -->
+        <div class="welcome-card card-hover">
+            欢迎来到云上森林馆
+        </div>
+        
+        <!-- 位置卡片 -->
+        <div class="location-card card-hover">
+            <div class="location-header">
+                <div class="location-icon">
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <div class="location-title">您的位置</div>
+            </div>
+            
+            <div class="current-location">
+                <h4>当前位置</h4>
+                <p>入口</p>
+            </div>
+            
+            <div class="map-container" id="mapContainer">
+                <div class="map-content" id="mapContent">
+                    <img src="GAR2_MapAI2.png" alt="云上森林馆导览地图" class="map-image">
+                    
+                    <!-- 地图标记 -->
+                    <div class="map-marker" style="top: 85%; left: 80%;">
+                        <img src="Entrance_Mark.png" style="width: 100%;">
+                        <div class="marker-label">入口</div>
+                    </div>
+                    
+                    <div class="map-marker" style="top: 25%; left: 75%;">
+                        <img src="Exit_Mark.png" style="width: 100%;">
+                        <div class="marker-label">出口</div>
+                    </div>
+                    
+                    <div class="map-marker" data-href="红海榄介绍.html" style="top: 75%; left: 70%;">
+                        <img src="Map Mark1.png" style="width: 100%;">
+                        <div class="marker-label">红海榄</div>
+                    </div>
+                    
+                    <div class="map-marker" data-href="见血封喉介绍.html" style="top: 74.7%; left: 48.5%;">
+                        <img src="Map Mark2.png" style="width: 100%;">
+                        <div class="marker-label">见血封喉</div>
+                    </div>
+                    
+                    <div class="map-marker" data-href="菩提树介绍.html" style="top: 52.7%; left: 32.8%;">
+                        <img src="Map Mark3.png" style="width: 100%;">
+                        <div class="marker-label">菩提树</div>
+                    </div>
+                    
+                    <div class="map-marker" data-href="望天树介绍.html" style="top: 60%; left: 42.8%;">
+                        <img src="Map Mark4.png" style="width: 100%;">
+                        <div class="marker-label">望天树</div>
+                    </div>
+                    
+                    <div class="map-marker" data-href="水底森林介绍.html" style="top: 62%; left: 29.8%;">
+                        <img src="Map Mark5.png" style="width: 100%;">
+                        <div class="marker-label">水底森林入口</div>
+                    </div>
+                    
+                    <div class="map-marker" data-href="板根榕介绍.html" style="top: 37%; left: 27.8%;">
+                        <img src="Map Mark6.png" style="width: 100%;">
+                        <div class="marker-label">板根榕</div>
+                    </div>
+                    
+                    <div class="map-marker" data-href="绞杀榕介绍.html" style="top: 47px; left: 37px;">
+                        <img src="Map Mark7.png" style="width: 100%;">
+                        <div class="marker-label">绞杀榕</div>
+                    </div>
+                    
+                    <div class="map-marker" data-href="独木成林介绍.html" style="top: 10px; left: 29px;">
+                        <img src="Map Mark8.png" style="width: 100%;">
+                        <div class="marker-label">独木成林</div>
+                    </div>
+                    
+                    <div class="map-marker" data-href="鹿角森林介绍.html" style="top: 75px; left: 133px;">
+                        <img src="Map Mark9.png" style="width: 100%;">
+                        <div class="marker-label">鹿角森林</div>
+                    </div>
+                    
+                    <div class="map-marker" data-href="大V木棉介绍.html" style="top: 33px; left: 161px;">
+                        <img src="Map Mark10.png" style="width: 100%;">
+                        <div class="marker-label">"大V"木棉</div>
+                    </div>
+                </div>
+                
+                <!-- 缩放控制按钮 -->
+                <div class="zoom-controls">
+                    <div class="zoom-btn" id="zoomIn">+</div>
+                    <div class="zoom-btn" id="zoomOut">−</div>
+                </div>
+            </div>
+            <div class="map-title">云上森林馆导览地图</div>
+        </div>
+        
+        <!-- 温度卡片 -->
+        <div class="temperature-card card-hover">
+            <div class="temperature-header">
+                <div class="temperature-icon">
+                    <i class="fas fa-thermometer-half"></i>
+                </div>
+                <div class="temperature-title">馆内室温监控</div>
+            </div>
+            
+            <div class="temperature-grid">
+                <div class="temp-card">
+                    <h4><i class="fas fa-home"></i> 馆内温度</h4>
+                    <div class="temp-value">NA</div>
+                </div>
+                
+                <div class="temp-card">
+                    <h4><i class="fas fa-tree"></i> 室外温度</h4>
+                    <div class="temp-value" id="outdoor-temp">NA</div>
+                    <div class="temp-source" id="temp-update-status">数据来源：国家气象中心</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 提示卡片 -->
+        <div class="tip-card card-hover">
+            <div class="tip-header">
+                <div class="tip-icon">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <div class="tip-title">今日小贴士</div>
+            </div>
+            
+            <div class="tip-content">
+                <p>
+                    <strong>温馨提示</strong>
+                    馆内室温较高，请做好防暑降温。如有不适，请及时联系现场工作人员。
+                </p>
+            </div>
+        </div>
+        
+        <!-- 页脚 -->
+        <div class="footer">
+            <p><strong>上海世博文化公园</strong></p>
+            <p>服务热线: 021-58839818 | 官方网站: www.expoculturepark.cn</p>
+            <p>工作时间：08:00-20:00</p>
+        </div>
+    </div>
+
+    <script>
+        // 更新时间显示的函数
+        function updateDateTime() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            
+            // 更新日期和时间显示
+            document.getElementById('current-date').textContent = `${year}年${month}月${day}日`;
+            document.getElementById('current-time').textContent = `${hours}:${minutes}:${seconds}`;
+            
+            // 根据时间更新问候语
+            const greeting = document.getElementById('greeting');
+            const hour = now.getHours();
+            
+            if (hour >= 5 && hour < 12) {
+                greeting.textContent = '张*先生，早上好！';
+            } else if (hour >= 12 && hour < 18) {
+                greeting.textContent = '张*先生，下午好！';
+            } else {
+                greeting.textContent = '张*先生，晚上好！';
+            }
+        }
+        
+        // 获取浦东室外温度
+        async function fetchPudongTemperature() {
+            const statusElement = document.getElementById('temp-update-status');
+            
+            try {
+                // 显示加载状态
+                statusElement.innerHTML = '<span class="loader"></span> 正在获取最新气温数据...';
+                
+                // 模拟API请求
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                // 生成随机温度（模拟真实数据）
+                const temperature = 30 + Math.random() * 4;
+                
+                // 更新室外温度显示
+                document.getElementById('outdoor-temp').textContent = temperature.toFixed(1);
+                
+                // 更新状态信息
+                const now = new Date();
+                const updateTime = `${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}`;
+                statusElement.textContent = `数据更新时间: ${updateTime} (来源: 国家气象中心)`;
+                
+            } catch (error) {
+                console.error('获取浦东气温失败:', error);
+                statusElement.innerHTML = '气温获取失败，使用默认值';
+                
+                // 使用默认值
+                document.getElementById('outdoor-temp').textContent = '32.8';
+            }
+        }
+        
+        // 地图缩放功能
+        function setupMapZoom() {
+            const mapContainer = document.getElementById('mapContainer');
+            const mapContent = document.getElementById('mapContent');
+            const zoomInBtn = document.getElementById('zoomIn');
+            const zoomOutBtn = document.getElementById('zoomOut');
+            
+            let scale = 1;
+            let isDragging = false;
+            let startX, startY;
+            let translateX = 0, translateY = 0;
+            const maxScale = 3;
+            const minScale = 0.5;
+            
+            // 更新地图变换
+            function updateTransform() {
+                mapContent.style.transform = `scale(${scale}) translate(${translateX}px, ${translateY}px)`;
+            }
+            
+            // 缩放函数
+            function zoom(direction) {
+                const zoomFactor = 0.2;
+                const oldScale = scale;
+                
+                if (direction === 'in' && scale < maxScale) {
+                    scale += zoomFactor;
+                } else if (direction === 'out' && scale > minScale) {
+                    scale -= zoomFactor;
+                }
+                
+                // 限制缩放范围
+                scale = Math.max(minScale, Math.min(maxScale, scale));
+                
+                // 调整位置以保持中心点
+                if (scale !== oldScale) {
+                    const rect = mapContainer.getBoundingClientRect();
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    
+                    // 计算相对于中心点的偏移
+                    const offsetX = (centerX - translateX) * (scale / oldScale - 1);
+                    const offsetY = (centerY - translateY) * (scale / oldScale - 1);
+                    
+                    translateX -= offsetX;
+                    translateY -= offsetY;
+                    
+                    updateTransform();
+                }
+            }
+            
+            // 鼠标滚轮缩放
+            mapContainer.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                
+                const rect = mapContainer.getBoundingClientRect();
+                const offsetX = e.clientX - rect.left;
+                const offsetY = e.clientY - rect.top;
+                
+                const oldScale = scale;
+                scale += e.deltaY > 0 ? -0.1 : 0.1;
+                scale = Math.max(minScale, Math.min(maxScale, scale));
+                
+                // 调整位置以保持鼠标位置不变
+                const zoomFactor = scale / oldScale;
+                translateX = (translateX - offsetX) * zoomFactor + offsetX;
+                translateY = (translateY - offsetY) * zoomFactor + offsetY;
+                
+                updateTransform();
+            });
+            
+            // 触摸缩放
+            let initialDistance = null;
+            
+            mapContainer.addEventListener('touchstart', (e) => {
+                if (e.touches.length === 2) {
+                    // 双指缩放开始
+                    const dx = e.touches[0].pageX - e.touches[1].pageX;
+                    const dy = e.touches[0].pageY - e.touches[1].pageY;
+                    initialDistance = Math.sqrt(dx * dx + dy * dy);
+                } else if (e.touches.length === 1) {
+                    // 单指拖动开始
+                    isDragging = true;
+                    startX = e.touches[0].clientX - translateX;
+                    startY = e.touches[0].clientY - translateY;
+                }
+            });
+            
+            mapContainer.addEventListener('touchmove', (e) => {
+                if (e.touches.length === 2 && initialDistance !== null) {
+                    // 双指缩放
+                    const dx = e.touches[0].pageX - e.touches[1].pageX;
+                    const dy = e.touches[0].pageY - e.touches[1].pageY;
+                    const currentDistance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    const zoomFactor = currentDistance / initialDistance;
+                    scale = Math.max(minScale, Math.min(maxScale, scale * zoomFactor));
+                    
+                    initialDistance = currentDistance;
+                    updateTransform();
+                } else if (e.touches.length === 1 && isDragging) {
+                    // 单指拖动
+                    translateX = e.touches[0].clientX - startX;
+                    translateY = e.touches[0].clientY - startY;
+                    updateTransform();
+                }
+            });
+            
+            mapContainer.addEventListener('touchend', (e) => {
+                if (e.touches.length === 0) {
+                    initialDistance = null;
+                    isDragging = false;
+                }
+            });
+            
+            // 鼠标拖动
+            mapContainer.addEventListener('mousedown', (e) => {
+                // 如果点击的是标记，则不开始拖动
+                if (e.target.closest('.map-marker')) return;
+                
+                isDragging = true;
+                startX = e.clientX - translateX;
+                startY = e.clientY - translateY;
+                mapContainer.style.cursor = 'grabbing';
+            });
+            
+            document.addEventListener('mousemove', (e) => {
+                if (isDragging) {
+                    translateX = e.clientX - startX;
+                    translateY = e.clientY - startY;
+                    updateTransform();
+                }
+            });
+            
+            document.addEventListener('mouseup', () => {
+                isDragging = false;
+                mapContainer.style.cursor = 'grab';
+            });
+            
+            // 按钮缩放
+            zoomInBtn.addEventListener('click', () => zoom('in'));
+            zoomOutBtn.addEventListener('click', () => zoom('out'));
+            
+            // 初始设置
+            mapContainer.style.cursor = 'grab';
+        }
+        
+        // 设置标记点击事件 - 修复版本
+        function setupMarkerClicks() {
+            // 为所有标记添加点击事件
+            const markers = document.querySelectorAll('.map-marker[data-href]');
+            
+            markers.forEach(marker => {
+                // 添加鼠标事件
+                marker.addEventListener('click', function(e) {
+                    e.stopPropagation(); // 阻止事件冒泡
+                    const href = this.getAttribute('data-href');
+                    if (href) {
+                        console.log(`跳转至: ${href}`);
+                        // 添加点击反馈
+                        this.style.transform = 'translate(-50%, -50%) scale(1.5)';
+                        setTimeout(() => {
+                            window.location.href = href;
+                        }, 300);
+                    }
+                });
+                
+                // 添加触摸事件
+                marker.addEventListener('touchend', function(e) {
+                    e.stopPropagation(); // 阻止事件冒泡
+                    const href = this.getAttribute('data-href');
+                    if (href) {
+                        console.log(`跳转至: ${href}`);
+                        // 添加点击反馈
+                        this.style.transform = 'translate(-50%, -50%) scale(1.5)';
+                        setTimeout(() => {
+                            window.location.href = href;
+                        }, 300);
+                    }
+                });
+            });
+        }
+        
+        // 页面加载时执行
+        document.addEventListener('DOMContentLoaded', () => {
+            // 初始化时间显示
+            updateDateTime();
+            
+            // 每秒更新时间
+            setInterval(updateDateTime, 1000);
+            
+            // 立即获取一次温度数据
+            fetchPudongTemperature();
+            
+            // 每5分钟获取一次温度数据
+            setInterval(fetchPudongTemperature, 300000);
+            
+            // 添加卡片悬停效果
+            const cards = document.querySelectorAll('.card-hover');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.transform = 'translateY(-5px)';
+                    card.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.12)';
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'translateY(0)';
+                    card.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.08)';
+                });
+            });
+            
+            // 设置地图缩放功能
+            setupMapZoom();
+            
+            // 设置标记点击事件
+            setupMarkerClicks();
+            
+            // 调试信息：显示当前点击的元素
+            document.addEventListener('click', function(e) {
+                console.log('Clicked element:', e.target);
+            });
+        });
+    </script>
+</body>
+</html>

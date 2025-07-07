@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>温室花园 - 独木成林</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Heiti SC', 'Microsoft YaHei', 'PingFang SC', sans-serif;
+        }
+        
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, hsl(120, 40%, 85%), hsl(60, 80%, 85%));
+            color: #2e7d32;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: background 0.8s ease-out;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        /* 顶部标题样式 */
+        .header {
+            text-align: center;
+            margin: 20px 0 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #4caf50;
+            position: relative;
+            width: 100%;
+        }
+        
+        .header h1 {
+            font-size: 36px;
+            font-weight: 900;
+            letter-spacing: 3px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+            color: #1b5e20;
+            position: relative;
+        }
+        
+        .header h1::after {
+            content: "GREENHOUSE GARDEN";
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 13px;
+            letter-spacing: 2px;
+            color: #4caf50;
+            font-weight: 600;
+        }
+        
+        .header::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 30%;
+            width: 40%;
+            height: 3px;
+            background: #81c784;
+            border-radius: 50%;
+            transition: all 0.5s ease;
+        }
+        
+        /* 植物信息卡片 */
+        .plant-card {
+            background: rgba(255, 255, 255, 0.92);
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            overflow: hidden;
+            width: 100%;
+            max-width: 700px;
+            margin-bottom: 30px;
+            transition: transform 0.4s ease;
+        }
+        
+        .plant-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .plant-header {
+            background: linear-gradient(to right, #1d5f1d, #2e8b57);
+            padding: 25px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .plant-title {
+            font-size: 32px;
+            font-weight: 800;
+            color: white;
+            letter-spacing: 2px;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .plant-subtitle {
+            font-size: 18px;
+            color: #e0f7e0;
+            margin-top: 8px;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+        
+        /* 植物内容区域 */
+        .plant-content {
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        .plant-image-container {
+            width: 100%;
+            height: 350px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            transition: all 0.4s ease;
+            background: linear-gradient(45deg, #1d5f1d, #2e8b57);
+        }
+        
+        .plant-image-container:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .image-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 10px 15px;
+            font-size: 14px;
+            text-align: center;
+        }
+        
+        .plant-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 15px;
+        }
+        
+        .plant-details {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(143, 188, 143, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid #2E8B57;
+        }
+        
+        .detail-item {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .detail-icon {
+            color: #1d5f1d;
+            font-size: 20px;
+            margin-right: 12px;
+            min-width: 24px;
+        }
+        
+        .detail-text {
+            flex: 1;
+        }
+        
+        .detail-title {
+            font-weight: 700;
+            color: #1d5f1d;
+            margin-bottom: 5px;
+            font-size: 18px;
+        }
+        
+        .detail-content {
+            color: #2e8b57;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        
+        .plant-description {
+            flex: 2;
+            min-width: 300px;
+        }
+        
+        .description-title {
+            font-size: 24px;
+            color: #1d5f1d;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px dashed #2E8B57;
+            font-weight: 700;
+        }
+        
+        .description-content {
+            font-size: 17px;
+            line-height: 1.8;
+            color: #2e8b57;
+            text-align: justify;
+        }
+        
+        .description-content p {
+            margin-bottom: 15px;
+        }
+        
+        /* 返回按钮 */
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            background: linear-gradient(to bottom, #1d5f1d, #2e8b57);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 12px 25px;
+            font-size: 17px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            margin-top: 10px;
+        }
+        
+        .back-button:hover {
+            background: linear-gradient(to bottom, #2e8b57, #1d5f1d);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .back-button i {
+            margin-right: 8px;
+        }
+        
+        /* 底部信息 */
+        .footer {
+            text-align: center;
+            font-size: 15px;
+            color: #1d5f1d;
+            margin-top: 30px;
+            padding: 20px 10px;
+            border-top: 1px solid rgba(46, 139, 87, 0.3);
+            width: 100%;
+            max-width: 800px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 12px;
+            font-weight: 600;
+        }
+        
+        .footer p:first-child {
+            font-weight: 800;
+            margin-bottom: 8px;
+            font-size: 18px;
+            color: #1d5f1d;
+        }
+        
+        .footer p {
+            margin: 5px 0;
+        }
+        
+        /* 装饰元素 */
+        .leaf-decoration {
+            position: absolute;
+            opacity: 0.1;
+            z-index: -1;
+            color: #1d5f1d;
+            transition: all 3s ease;
+        }
+        
+        .leaf-1 {
+            top: 5%;
+            left: 5%;
+            font-size: 120px;
+            transform: rotate(-25deg);
+        }
+        
+        .leaf-2 {
+            bottom: 10%;
+            right: 5%;
+            font-size: 90px;
+            transform: rotate(40deg);
+        }
+        
+        .leaf-3 {
+            top: 15%;
+            right: 8%;
+            font-size: 80px;
+            transform: rotate(15deg);
+        }
+        
+        .leaf-4 {
+            bottom: 20%;
+            left: 7%;
+            font-size: 70px;
+            transform: rotate(-15deg);
+        }
+        
+        /* 生态特性提示 */
+        .plant-warning {
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid #2e8b57;
+            width: 100%;
+        }
+        
+        .warning-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .warning-icon {
+            font-size: 28px;
+            color: #1d5f1d;
+            margin-right: 12px;
+        }
+        
+        .warning-title {
+            font-size: 22px;
+            color: #1d5f1d;
+            font-weight: 700;
+        }
+        
+        .warning-content {
+            font-size: 16px;
+            color: #2e8b57;
+            line-height: 1.7;
+        }
+        
+        /* 榕树根系动画效果 */
+        .root-system {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 200px;
+            z-index: -2;
+            overflow: hidden;
+        }
+        
+        .root {
+            position: absolute;
+            bottom: -10px;
+            width: 15px;
+            background: linear-gradient(to top, #5d4037, #8d6e63);
+            border-radius: 50% 50% 0 0;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+        
+        .root::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 25px;
+            height: 40px;
+            background: linear-gradient(to top, #5d4037, #8d6e63);
+            border-radius: 50% 50% 0 0;
+            z-index: -1;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .plant-image-container {
+                height: 280px;
+            }
+            
+            .plant-header {
+                padding: 20px 15px;
+            }
+            
+            .plant-title {
+                font-size: 28px;
+            }
+            
+            .plant-content {
+                padding: 20px;
+            }
+            
+            .root-system {
+                height: 150px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .plant-image-container {
+                height: 220px;
+            }
+            
+            .plant-title {
+                font-size: 24px;
+            }
+            
+            .plant-subtitle {
+                font-size: 16px;
+            }
+            
+            .description-title {
+                font-size: 22px;
+            }
+            
+            .description-content {
+                font-size: 16px;
+            }
+            
+            .root-system {
+                height: 100px;
+            }
+        }
+        
+        /* 榕树生长动画 */
+        .tree-growth {
+            position: relative;
+            width: 100%;
+            height: 350px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .tree-trunk {
+            position: absolute;
+            width: 80px;
+            height: 0;
+            background: linear-gradient(to right, #8d6e63, #5d4037);
+            border-radius: 40px;
+            bottom: 0;
+            animation: growTrunk 4s forwards;
+        }
+        
+        .tree-crown {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: #1d5f1d;
+            border-radius: 50%;
+            bottom: 0;
+            opacity: 0;
+            transform: scale(0);
+            animation: growCrown 3s 2s forwards;
+        }
+        
+        .tree-root {
+            position: absolute;
+            width: 15px;
+            height: 0;
+            background: #5d4037;
+            bottom: 0;
+            border-radius: 5px;
+            animation: growRoot 3s 1s forwards;
+        }
+        
+        @keyframes growTrunk {
+            from { height: 0; }
+            to { height: 300px; }
+        }
+        
+        @keyframes growCrown {
+            0% { opacity: 0; transform: scale(0); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        
+        @keyframes growRoot {
+            from { height: 0; }
+            to { height: 50px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- 装饰叶子 -->
+    <div class="leaf-decoration leaf-1">
+        <i class="fas fa-tree"></i>
+    </div>
+    <div class="leaf-decoration leaf-2">
+        <i class="fas fa-tree"></i>
+    </div>
+    <div class="leaf-decoration leaf-3">
+        <i class="fas fa-seedling"></i>
+    </div>
+    <div class="leaf-decoration leaf-4">
+        <i class="fas fa-seedling"></i>
+    </div>
+    
+    <!-- 榕树根系背景 -->
+    <div class="root-system" id="rootSystem"></div>
+    
+    <div class="container">
+        <!-- 顶部标题 -->
+        <div class="header">
+            <h1>温室花园</h1>
+        </div>
+        
+        <!-- 植物信息卡片 -->
+        <div class="plant-card">
+            <div class="plant-header">
+                <div class="plant-title">独木成林</div>
+                <div class="plant-subtitle">Ficus benghalensis · 桑科榕属</div>
+            </div>
+            
+            <div class="plant-content">
+                <div class="plant-image-container">
+                    <div class="tree-growth">
+                        <div class="tree-trunk"></div>
+                        <div class="tree-crown"></div>
+                        <div class="tree-root" style="left: 25%;"></div>
+                        <div class="tree-root" style="left: 35%;"></div>
+                        <div class="tree-root" style="left: 45%;"></div>
+                        <div class="tree-root" style="left: 55%;"></div>
+                        <div class="tree-root" style="left: 65%;"></div>
+                        <div class="tree-root" style="left: 75%;"></div>
+                    </div>
+                    <div class="image-caption">云上森林馆 · 温室花园 | 独木成林实景模拟</div>
+                </div>
+                
+                <div class="plant-info">
+                    <div class="plant-details">
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-globe-asia"></i>
+                            </div>
+                            <div class="detail-text">
+                                <div class="detail-title">分布区域</div>
+                                <div class="detail-content">热带亚洲、中国云南、广东、海南</div>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-ruler-combined"></i>
+                            </div>
+                            <div class="detail-text">
+                                <div class="detail-title">覆盖面积</div>
+                                <div class="detail-content">最大可覆盖1.5公顷（约2个足球场）</div>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div class="detail-text">
+                                <div class="detail-title">生长周期</div>
+                                <div class="detail-content">100-200年形成完整独木林</div>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-tree"></i>
+                            </div>
+                            <div class="detail-text">
+                                <div class="detail-title">气生根数量</div>
+                                <div class="detail-content">成熟植株可达3000条以上</div>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-arrows-alt-h"></i>
+                            </div>
+                            <div class="detail-text">
+                                <div class="detail-title">树冠直径</div>
+                                <div class="detail-content">最大可达150米以上</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="plant-description">
+                        <div class="description-title">自然奇迹</div>
+                        <div class="description-content">
+                            <p>独木成林是热带雨林中的奇观，指单株榕树通过气生根不断扩展，最终形成一片森林的壮观景象。这种自然现象主要由高山榕、孟加拉榕等榕属植物创造，其中孟加拉榕（Ficus benghalensis）是最典型的代表。</p>
+                            
+                            <p>榕树的气生根从树枝向下生长，接触土壤后增粗成为支柱根，这些支柱根不仅支撑着不断扩展的树冠，还能吸收水分和养分。随着时间推移，支柱根逐渐木质化，形成新的"树干"，而原始树干则可能腐烂消失，最终形成"多代同堂"的独特生态系统。</p>
+                            
+                            <p>世界上最大的独木成林位于印度豪拉植物园，一棵200年树龄的孟加拉榕拥有2880条支柱根，覆盖面积达1.5公顷，相当于两个标准足球场大小。这棵"大榕树"的树冠周长超过450米，最高支柱根达25米，创造了"世界上最大树冠"的吉尼斯纪录。</p>
+                            
+                            <p>在热带雨林生态系统中，独木成林的榕树具有不可替代的价值。其巨大的树冠为鸟类、昆虫、哺乳动物提供栖息地，气生根形成的复杂结构成为附生植物的理想家园，成熟的果实则是众多动物的食物来源，被誉为"森林中的生命之树"。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 生态特性提示 -->
+        <div class="plant-warning">
+            <div class="warning-header">
+                <div class="warning-icon">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <div class="warning-title">生态价值</div>
+            </div>
+            <div class="warning-content">
+                独木成林的榕树在生态系统中扮演着多重角色：<br>
+                1. 生物栖息地：树冠层容纳上百种鸟类，气生根系统为昆虫和小型哺乳动物提供栖息空间<br>
+                2. 气候调节：单株大树每天蒸腾数吨水分，有效调节局部气候<br>
+                3. 水土保持：庞大的根系网络能有效防止水土流失<br>
+                4. 文化象征：在东南亚文化中被视为"生命之树"，是许多村落的集会场所<br>
+                5. 科学研究：为植物共生关系、生态系统演替提供绝佳研究对象
+            </div>
+        </div>
+        
+        <!-- 返回按钮 -->
+        <button id="backButton" class="back-button">
+            <i class="fas fa-arrow-left"></i> 返回植物地图
+        </button>
+        
+        <!-- 底部信息 -->
+        <div class="footer">
+            <p>上海世博文化公园 · 云上森林馆</p>
+            <p>温室花园 | 榕树生态展示区</p>
+            <p>服务热线: 021-58839818 | 官方网站: https://www.expoculturepark.cn/</p>
+        </div>
+    </div>
+    
+    <script>
+        // 动态背景效果
+        document.addEventListener('DOMContentLoaded', function() {
+            // 添加滚动事件监听器
+            window.addEventListener('scroll', function() {
+                const scrollPosition = window.scrollY;
+                const scrollMax = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercentage = scrollPosition / scrollMax;
+                
+                // 使用HSL颜色空间实现从绿色(120°)到黄色(60°)的渐变
+                const hue = 120 - (60 * scrollPercentage);
+                const saturation = 40 + (40 * scrollPercentage);
+                const lightness = 85 - (5 * scrollPercentage);
+                
+                document.body.style.background = 
+                    `linear-gradient(135deg, 
+                     hsl(${hue}, ${saturation}%, ${lightness}%), 
+                     hsl(${hue - 20}, ${saturation + 10}%, ${lightness + 5}%))`;
+            });
+            
+            // 叶子漂浮动画
+            const leaves = document.querySelectorAll('.leaf-decoration');
+            leaves.forEach((leaf, index) => {
+                // 设置随机初始位置和动画
+                const randomTop = 5 + Math.random() * 85;
+                const randomLeft = 5 + Math.random() * 85;
+                const randomDelay = Math.random() * 5;
+                const randomDuration = 15 + Math.random() * 15;
+                
+                leaf.style.top = `${randomTop}%`;
+                leaf.style.left = `${randomLeft}%`;
+                leaf.style.animation = `float ${randomDuration}s ease-in-out ${randomDelay}s infinite`;
+                
+                // 悬停效果
+                leaf.addEventListener('mouseenter', () => {
+                    leaf.style.opacity = '0.2';
+                    leaf.style.transform = `rotate(${15 * (index % 2 ? 1 : -1)}deg) scale(1.2)`;
+                });
+                
+                leaf.addEventListener('mouseleave', () => {
+                    leaf.style.opacity = '0.1';
+                    leaf.style.transform = `rotate(${leaf.style.transform.split('rotate')[1]})`;
+                });
+            });
+            
+            // 添加叶子漂浮动画
+            const style = document.createElement('style');
+            style.innerHTML = `
+                @keyframes float {
+                    0%, 100% {
+                        transform: translateY(0) rotate(0deg);
+                    }
+                    25% {
+                        transform: translateY(-20px) rotate(5deg);
+                    }
+                    50% {
+                        transform: translateY(-40px) rotate(0deg);
+                    }
+                    75% {
+                        transform: translateY(-20px) rotate(-5deg);
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // 生成榕树根系
+            const rootSystem = document.getElementById('rootSystem');
+            for (let i = 0; i < 20; i++) {
+                const root = document.createElement('div');
+                root.classList.add('root');
+                root.style.left = `${Math.random() * 100}%`;
+                root.style.height = `${20 + Math.random() * 100}px`;
+                root.style.transform = `rotate(${Math.random() * 10 - 5}deg)`;
+                rootSystem.appendChild(root);
+            }
+            
+            // 返回按钮功能
+            const backButton = document.getElementById('backButton');
+            backButton.addEventListener('click', function() {
+                window.location.href = 'index.html';
+            });
+        });
+    </script>
+</body>
+</html>

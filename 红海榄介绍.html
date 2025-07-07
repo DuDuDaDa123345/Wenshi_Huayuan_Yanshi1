@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>云上森林馆 - 红海榄</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Heiti SC', 'Microsoft YaHei', 'PingFang SC', sans-serif;
+        }
+        
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, hsl(120, 40%, 85%), hsl(60, 80%, 85%));
+            color: #2e7d32;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: background 0.8s ease-out;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        /* 顶部标题样式 */
+        .header {
+            text-align: center;
+            margin: 20px 0 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #4caf50;
+            position: relative;
+            width: 100%;
+        }
+        
+        .header h1 {
+            font-size: 36px;
+            font-weight: 900;
+            letter-spacing: 3px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+            color: #1b5e20;
+            position: relative;
+        }
+        
+        .header h1::after {
+            content: "GREENHOUSE GARDEN";
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 13px;
+            letter-spacing: 2px;
+            color: #4caf50;
+            font-weight: 600;
+        }
+        
+        .header::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 30%;
+            width: 40%;
+            height: 3px;
+            background: #81c784;
+            border-radius: 50%;
+            transition: all 0.5s ease;
+        }
+        
+        /* 植物信息卡片 */
+        .plant-card {
+            background: rgba(255, 255, 255, 0.92);
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            overflow: hidden;
+            width: 100%;
+            max-width: 700px;
+            margin-bottom: 30px;
+            transition: transform 0.4s ease;
+        }
+        
+        .plant-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .plant-header {
+            background: linear-gradient(to right, #2e7d32, #4caf50);
+            padding: 25px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .plant-title {
+            font-size: 32px;
+            font-weight: 800;
+            color: white;
+            letter-spacing: 2px;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .plant-subtitle {
+            font-size: 18px;
+            color: #e8f5e9;
+            margin-top: 8px;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+        
+        /* 植物内容区域 */
+        .plant-content {
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        .plant-image-container {
+            width: 100%;
+            height: 350px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            transition: all 0.4s ease;
+        }
+        
+        .plant-image-container:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .plant-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background: linear-gradient(45deg, #8bc34a, #4caf50);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            flex-direction: column;
+        }
+        
+        .image-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 10px 15px;
+            font-size: 14px;
+            text-align: center;
+        }
+        
+        .plant-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 15px;
+        }
+        
+        .plant-details {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(129, 199, 132, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid #4caf50;
+        }
+        
+        .detail-item {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .detail-icon {
+            color: #2e7d32;
+            font-size: 20px;
+            margin-right: 12px;
+            min-width: 24px;
+        }
+        
+        .detail-text {
+            flex: 1;
+        }
+        
+        .detail-title {
+            font-weight: 700;
+            color: #1b5e20;
+            margin-bottom: 5px;
+            font-size: 18px;
+        }
+        
+        .detail-content {
+            color: #388e3c;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        
+        .plant-description {
+            flex: 2;
+            min-width: 300px;
+        }
+        
+        .description-title {
+            font-size: 24px;
+            color: #1b5e20;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px dashed #81c784;
+            font-weight: 700;
+        }
+        
+        .description-content {
+            font-size: 17px;
+            line-height: 1.8;
+            color: #2e7d32;
+            text-align: justify;
+        }
+        
+        .description-content p {
+            margin-bottom: 15px;
+        }
+        
+        /* 返回按钮 */
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            background: linear-gradient(to bottom, #4CAF50, #388E3C);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 12px 25px;
+            font-size: 17px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            margin-top: 10px;
+        }
+        
+        .back-button:hover {
+            background: linear-gradient(to bottom, #388E3C, #2E7D32);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .back-button i {
+            margin-right: 8px;
+        }
+        
+        /* 底部信息 */
+        .footer {
+            text-align: center;
+            font-size: 15px;
+            color: #388e3c;
+            margin-top: 30px;
+            padding: 20px 10px;
+            border-top: 1px solid rgba(76, 175, 80, 0.3);
+            width: 100%;
+            max-width: 800px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 12px;
+            font-weight: 600;
+        }
+        
+        .footer p:first-child {
+            font-weight: 800;
+            margin-bottom: 8px;
+            font-size: 18px;
+            color: #1b5e20;
+        }
+        
+        .footer p {
+            margin: 5px 0;
+        }
+        
+        /* 装饰元素 */
+        .leaf-decoration {
+            position: absolute;
+            opacity: 0.1;
+            z-index: -1;
+            color: #2e7d32;
+            transition: all 3s ease;
+        }
+        
+        .leaf-1 {
+            top: 5%;
+            left: 5%;
+            font-size: 120px;
+            transform: rotate(-25deg);
+        }
+        
+        .leaf-2 {
+            bottom: 10%;
+            right: 5%;
+            font-size: 90px;
+            transform: rotate(40deg);
+        }
+        
+        .leaf-3 {
+            top: 15%;
+            right: 8%;
+            font-size: 80px;
+            transform: rotate(15deg);
+        }
+        
+        .leaf-4 {
+            bottom: 20%;
+            left: 7%;
+            font-size: 70px;
+            transform: rotate(-15deg);
+        }
+        
+        /* 小贴士 */
+        .plant-tip {
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid #f1c40f;
+            width: 100%;
+        }
+        
+        .tip-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .tip-icon {
+            font-size: 28px;
+            color: #f1c40f;
+            margin-right: 12px;
+        }
+        
+        .tip-title {
+            font-size: 22px;
+            color: #1b5e20;
+            font-weight: 700;
+        }
+        
+        .tip-content {
+            font-size: 16px;
+            color: #2e7d32;
+            line-height: 1.7;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .plant-image-container {
+                height: 280px;
+            }
+            
+            .plant-header {
+                padding: 20px 15px;
+            }
+            
+            .plant-title {
+                font-size: 28px;
+            }
+            
+            .plant-content {
+                padding: 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .plant-image-container {
+                height: 220px;
+            }
+            
+            .plant-title {
+                font-size: 24px;
+            }
+            
+            .plant-subtitle {
+                font-size: 16px;
+            }
+            
+            .description-title {
+                font-size: 22px;
+            }
+            
+            .description-content {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 装饰叶子 -->
+    <div class="leaf-decoration leaf-1">
+        <i class="fas fa-leaf"></i>
+    </div>
+    <div class="leaf-decoration leaf-2">
+        <i class="fas fa-leaf"></i>
+    </div>
+    <div class="leaf-decoration leaf-3">
+        <i class="fas fa-seedling"></i>
+    </div>
+    <div class="leaf-decoration leaf-4">
+        <i class="fas fa-seedling"></i>
+    </div>
+    
+    <div class="container">
+        <!-- 顶部标题 -->
+        <div class="header">
+            <h1>温室花园</h1>
+        </div>
+        
+        <!-- 植物信息卡片 -->
+        <div class="plant-card">
+            <div class="plant-header">
+                <div class="plant-title">红海榄</div>
+                <div class="plant-subtitle">Rhizophora stylosa · 红树科</div>
+            </div>
+            
+            <div class="plant-content">
+                <div class="plant-image-container">
+                    <div class="plant-image">
+                        红海榄植物图片
+                        <div style="font-size: 16px; margin-top: 10px; font-weight: normal;">(实际应用中替换为真实图片)</div>
+                    </div>
+                    <div class="image-caption">云上森林馆 · 温室花园 | 红海榄实景摄影</div>
+                </div>
+                
+                <div class="plant-info">
+                    <div class="plant-details">
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-leaf"></i>
+                            </div>
+                            <div class="detail-text">
+                                <div class="detail-title">科属</div>
+                                <div class="detail-content">红树科 (Rhizophoraceae) · 红树属</div>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-globe-asia"></i>
+                            </div>
+                            <div class="detail-text">
+                                <div class="detail-title">分布区域</div>
+                                <div class="detail-content">东南亚热带及亚热带海岸，中国海南、广东、广西、福建等地</div>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-ruler-combined"></i>
+                            </div>
+                            <div class="detail-text">
+                                <div class="detail-title">植株高度</div>
+                                <div class="detail-content">通常2-4米，最高可达8米</div>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div class="detail-text">
+                                <div class="detail-title">花果期</div>
+                                <div class="detail-content">花期4-6月，果期8-10月</div>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-tint"></i>
+                            </div>
+                            <div class="detail-text">
+                                <div class="detail-title">生长环境</div>
+                                <div class="detail-content">热带海岸潮间带，耐盐碱沼泽环境</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="plant-description">
+                        <div class="description-title">植物简介</div>
+                        <div class="description-content">
+                            <p>红海榄（学名：Rhizophora stylosa）是红树科红树属的常绿灌木或小乔木，为热带海岸红树林的重要建群种之一。其独特的支柱根和呼吸根系统构成了海岸线上壮观的"海上森林"景观。</p>
+                            
+                            <p>红海榄最显著的特征是其发达的气生根系统，这些从树干和树枝上长出的支柱根向下生长插入泥滩，形成稳定的支撑结构，使植株能够抵御潮汐和海浪的冲击。树皮呈灰褐色，叶片为革质椭圆形，对生排列，叶面深绿有光泽。</p>
+                            
+                            <p>红海榄的花朵呈淡黄色，聚伞花序腋生。其果实为倒卵形蒴果，成熟后种子在母树上即开始萌发，形成长达20-40厘米的棒状胚轴（俗称"水笔"）。当胚轴成熟后脱落，插入泥滩中即可生根成长，这种繁殖方式称为"胎生现象"，是红树植物适应潮间带环境的特殊策略。</p>
+                            
+                            <p>作为海岸生态系统的"守护神"，红海榄林具有重要的生态功能：防风消浪、固岸护堤、净化海水、提供生物栖息地等。其木材坚硬耐腐，可用于建筑和制作工具；树皮富含单宁，可提取栲胶；嫩叶可作饲料，具有重要的经济价值。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 植物小贴士 -->
+        <div class="plant-tip">
+            <div class="tip-header">
+                <div class="tip-icon">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <div class="tip-title">生态价值</div>
+            </div>
+            <div class="tip-content">
+                红海榄是海岸生态系统的工程师，其发达的根系为海洋生物提供了理想的栖息地和繁殖场所。研究表明，一公顷健康的红海榄林每年可固碳1.5吨，同时能削减75%的海浪能量，有效保护海岸线免受侵蚀。在温室花园中，我们模拟了潮汐环境，让您近距离观察这种神奇的"海岸卫士"。
+            </div>
+        </div>
+        
+        <!-- 返回按钮 -->
+        <button id="backButton" class="back-button">
+            <i class="fas fa-arrow-left"></i> 返回植物地图
+        </button>
+        
+        <!-- 底部信息 -->
+        <div class="footer">
+            <p>上海世博文化公园 · 云上森林馆</p>
+            <p>温室花园 | 热带海岸植物展区</p>
+            <p>服务热线: 021-58839818 | 官方网站: https://www.expoculturepark.cn/</p>
+        </div>
+    </div>
+    
+    <script>
+        // 动态背景效果
+        document.addEventListener('DOMContentLoaded', function() {
+            // 添加滚动事件监听器
+            window.addEventListener('scroll', function() {
+                const scrollPosition = window.scrollY;
+                const scrollMax = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercentage = scrollPosition / scrollMax;
+                
+                // 使用HSL颜色空间实现从绿色(120°)到黄色(60°)的渐变
+                const hue = 120 - (60 * scrollPercentage);
+                const saturation = 40 + (40 * scrollPercentage);
+                const lightness = 85 - (5 * scrollPercentage);
+                
+                document.body.style.background = 
+                    `linear-gradient(135deg, 
+                     hsl(${hue}, ${saturation}%, ${lightness}%), 
+                     hsl(${hue - 20}, ${saturation + 10}%, ${lightness + 5}%))`;
+            });
+            
+            // 叶子漂浮动画
+            const leaves = document.querySelectorAll('.leaf-decoration');
+            leaves.forEach((leaf, index) => {
+                // 设置随机初始位置和动画
+                const randomTop = 5 + Math.random() * 85;
+                const randomLeft = 5 + Math.random() * 85;
+                const randomDelay = Math.random() * 5;
+                const randomDuration = 15 + Math.random() * 15;
+                
+                leaf.style.top = `${randomTop}%`;
+                leaf.style.left = `${randomLeft}%`;
+                leaf.style.animation = `float ${randomDuration}s ease-in-out ${randomDelay}s infinite`;
+                
+                // 悬停效果
+                leaf.addEventListener('mouseenter', () => {
+                    leaf.style.opacity = '0.2';
+                    leaf.style.transform = `rotate(${15 * (index % 2 ? 1 : -1)}deg) scale(1.2)`;
+                });
+                
+                leaf.addEventListener('mouseleave', () => {
+                    leaf.style.opacity = '0.1';
+                    leaf.style.transform = `rotate(${leaf.style.transform.split('rotate')[1]})`;
+                });
+            });
+            
+            // 添加叶子漂浮动画
+            const style = document.createElement('style');
+            style.innerHTML = `
+                @keyframes float {
+                    0%, 100% {
+                        transform: translateY(0) rotate(0deg);
+                    }
+                    25% {
+                        transform: translateY(-20px) rotate(5deg);
+                    }
+                    50% {
+                        transform: translateY(-40px) rotate(0deg);
+                    }
+                    75% {
+                        transform: translateY(-20px) rotate(-5deg);
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // 返回按钮功能 - 返回untitled2.html
+            const backButton = document.getElementById('backButton');
+            backButton.addEventListener('click', function() {
+                // 实际跳转到untitled2.html
+                window.location.href = 'index.html';
+            });
+        });
+    </script>
+</body>
+</html>
